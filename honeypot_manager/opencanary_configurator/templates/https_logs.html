@@ -1,0 +1,55 @@
+<!-- http_logs.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Logs</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTTPS Logs</h1>
+    <table>
+        <tr>
+            <th>Source Host</th>
+            <th>Source Port</th>
+            <th>Destination Host</th>
+            <th>Destination Port</th>
+            <th>Path</th>
+            <th>User Agent</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Local Time</th>
+            <th>UTC Time</th>
+        </tr>
+        {% for log in https_logs %}
+        <tr>
+            <td>{{ log.src_host }}</td>
+            <td>{{ log.src_port }}</td>
+            <td>{{ log.dst_host }}</td>
+            <td>{{ log.dst_port }}</td>
+            <td>{{ log.logdata.PATH }}</td>
+            <td>{{ log.logdata.USERAGENT }}</td>
+            <td>{{ log.logdata.USERNAME }}</td>
+            <td>{{ log.logdata.PASSWORD }}</td>
+            <td>{{ log.local_time }}</td>
+            <td>{{ log.utc_time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

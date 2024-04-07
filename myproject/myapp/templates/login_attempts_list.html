@@ -1,0 +1,62 @@
+<!-- login_attempts_list.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Attempts</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Login Attempts</h1>
+    <ul>
+
+        <table>
+            <tr>
+                <th>Unique Number</th>
+                <th>IP</th>
+                <th>City</th>
+                <th>Region</th>
+                <th>Country</th>
+                <th>View on Map</th>
+            </tr>
+            {% for attempt in login_attempts %}
+            <tr>
+                <td>{{ attempt.unique_number }}</td>
+                <td>{{ attempt.ip }}</td>
+                <td>{{ attempt.city }}</td>
+                <td>{{ attempt.region }}</td>
+                <td>{{ attempt.country }}</td>
+                <td><a href="{% url 'redirect_to_map' attempt.unique_number %}" target="_blank">View on Map</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No login attempts found.</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </ul>
+</body>
+
+</html>
