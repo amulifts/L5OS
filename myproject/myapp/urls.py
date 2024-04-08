@@ -12,5 +12,3 @@ urlpatterns = [
 ]
 
 
-
-# This presentation explores the Eternal Blue exploit, a major flaw in Microsoft's SMB protocol used in severe ransomware attacks like WannaCry and NotPetya. We'll look at its origins, how it works, and its effects on global cybersecurity. The presentation also covers implementation of this vulnerability in hack the box using metasploit.
