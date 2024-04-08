@@ -28,10 +28,9 @@ python manage.py runserver main.py
 - `Real-Time Alerts:` Sends notifications for specific trigger events such as repeated login failures.
 
 ## Getting Started
-- Installation: Ensure OpenCannary is configured properly. Clone the repository from GitHub.
+- To run honeypot ensure OpenCannary is configured properly. Clone the repository from GitHub.
 - Run `python manage.py migrate` to set up the database.
 - Configuration: Use the Django admin panel to configure honeypot services and view logs.
-
 
 ## Team
 
