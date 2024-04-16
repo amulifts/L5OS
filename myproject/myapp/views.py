@@ -4,6 +4,7 @@ import json
 import os
 import requests
 import uuid
+from django.db.models import Count
 from django.conf import settings
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from .models import LoginAttempt
@@ -159,7 +160,8 @@ def redirect_to_map(request, unique_number=None):
             if entry:
                 latitude = entry['latitude']
                 longitude = entry['longitude']
-                url = f"https://maps.here.com/?map={latitude},{longitude},15,omv"
+                # url = f"https://maps.here.com/?map={latitude},{longitude},15,omv"
+                url = f"https://earth.google.com/web/@{latitude},{longitude},10000a,35d,0h,0t,0r"
                 # Open it in a new tab
                 return HttpResponse(f'<script>window.open("{url}");</script>')
             else:
@@ -176,6 +178,8 @@ def list_login_attempts(request):
     try:
         with open(file_path, 'r') as file:
             login_attempts = json.load(file)
+            # Reverse the list to display newest first
+            login_attempts.reverse()
     except (FileNotFoundError, json.JSONDecodeError):
         login_attempts = []
 
@@ -183,3 +187,21 @@ def list_login_attempts(request):
 
 def generate_unique_identifier():
     return uuid.uuid4().hex
+
+def chart_data_view(request):
+    country_data = LoginAttempt.objects.values('country').annotate(total=Count('country')).order_by('-total')
+    countries = [entry['country'] for entry in country_data]
+    country_counts = [entry['total'] for entry in country_data]
+
+    ip_data = LoginAttempt.objects.values('ip_address').annotate(total=Count('ip_address')).order_by('-total')
+    ips = [entry['ip_address'] for entry in ip_data][:10]  # limit to top 10 IPs for readability
+    ip_counts = [entry['total'] for entry in ip_data][:10]
+
+    context = {
+        'countries': json.dumps(countries),
+        'country_counts': json.dumps(country_counts),
+        'ips': json.dumps(ips),
+        'ip_counts': json.dumps(ip_counts)
+    }
+    return render(request, 'chart.html', context)
+
